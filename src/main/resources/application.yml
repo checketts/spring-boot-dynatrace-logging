@@ -1,0 +1,21 @@
+
+log4j2:
+  asyncQueueFullPolicy: Discard
+
+management:
+  dynatrace:
+    metrics:
+      export:
+        api-token: ${vcap.services.dynatrace.credentials.apitoken}
+        uri: "https://${management.dynatrace.domain}.live.dynatrace.com/api/v2/metrics/ingest"
+        v2:
+          enrich-with-dynatrace-metadata: true
+          default-dimensions:
+            lane: ${app.lane}
+            service: ${app.group}
+            app: ${app.name}
+            version: ${app.version}
+            instance: ${cf.instance.index:local}
+
+management.dynatrace:
+  domain: ${vcap.services.dynatrace.credentials.environmentid}
